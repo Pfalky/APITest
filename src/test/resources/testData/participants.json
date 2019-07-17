@@ -1,0 +1,114 @@
+[
+  {
+    "inn": "525005453507",
+    "participants": [
+      {
+        "typeStorage": "INDIVIDUAL",
+        "isPrimary": true,
+        "individual": {
+          "participantFio": "Козырев Вадим Михайлович",
+          "participantPosition": "Индивидуальный предприниматель",
+          "participantIssuedate": "1999-11-10T21:00:00.000Z",
+          "participantUnitcode": "111-111",
+          "participantDocnumber": "1111 111111",
+          "participantBirthdate": "1999-11-10T21:00:00.000Z"
+        },
+        "legalentity": null
+      }
+    ]
+  },
+  {
+    "inn": "9731009774",
+    "participants": [
+      {
+        "typeStorage": "INDIVIDUAL",
+        "isPrimary": true,
+        "individual": {
+          "participantFio": "Соколов Аркадий Васильевич",
+          "participantPosition": "Генеральный Директор",
+          "participantIssuedate": null,
+          "participantUnitcode": null,
+          "participantDocnumber": "",
+          "participantBirthdate": null
+        },
+        "legalentity": null
+      },
+      {
+        "typeStorage": "LEGAL_ENTITY",
+        "isPrimary": true,
+        "individual": null,
+        "legalentity": {
+          "participantINN": "9715316168",
+          "participantName": "ООО \"ИФР\""
+        }
+      }
+    ]
+  },
+  {
+    "inn": "9715316168",
+    "participants": [
+      {
+        "typeStorage": "INDIVIDUAL",
+        "isPrimary": true,
+        "individual": {
+          "participantFio": "Парамзин Антон Андреевич",
+          "participantPosition": "Генеральный Директор",
+          "participantIssuedate": null,
+          "participantUnitcode": null,
+          "participantDocnumber": "",
+          "participantBirthdate": null
+        },
+        "legalentity": null
+      },
+      {
+        "typeStorage": "INDIVIDUAL",
+        "isPrimary": true,
+        "individual": {
+          "participantFio": "Соколов Аркадий Васильевич",
+          "participantPosition": "Учредитель",
+          "participantIssuedate": null,
+          "participantUnitcode": null,
+          "participantDocnumber": "",
+          "participantBirthdate": null
+        },
+        "legalentity": null
+      }
+    ]
+  },
+  {
+    "inn": "7703743997",
+    "participants": [
+      {
+        "typeStorage": "INDIVIDUAL",
+        "isPrimary": true,
+        "individual": {
+          "participantFio": "Бондарев Иван Викторович",
+          "participantPosition": "Генеральный Директор",
+          "participantIssuedate": null,
+          "participantUnitcode": null,
+          "participantDocnumber": "",
+          "participantBirthdate": null
+        },
+        "legalentity": null
+      }
+    ]
+  },
+  {
+    "inn": "772735946962",
+    "participants": [
+      {
+        "typeStorage": "INDIVIDUAL",
+        "isPrimary": true,
+        "individual": {
+          "participantFio": "Попов Алексей Сергеевич",
+          "participantPosition": "Индивидуальный предприниматель",
+          "participantIssuedate": null,
+          "participantUnitcode": null,
+          "participantDocnumber": "",
+          "participantBirthdate": null
+        },
+        "legalentity": null
+      }
+    ]
+  }
+]

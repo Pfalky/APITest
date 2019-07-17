@@ -1,0 +1,266 @@
+swagger: "2.0"
+info:
+  description: 'LKB API'
+  version: '1.0.0'
+  title: 'LKB API'
+tags:
+- name: "Info"
+  description: Common Info API
+
+paths:
+  /info/systeminfologin:
+    get:
+      summary: Get system environment info for login page
+      description: Get system environment info for login page
+      operationId: Get system environment info for login page
+      tags:
+      - "Info"
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/EnvironmentLoginPage'
+        500:
+          description: Internal error
+
+  /info/version:
+    get:
+      summary: Get module build version
+      description: Get module build version
+      operationId: version
+      tags:
+      - "Info"
+
+      produces:
+      - application/json
+
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/SysVersion'
+        500:
+          description: Internal error
+
+  /passport/recognize:
+    post:
+      summary: recognize passport
+      description: recognize passport
+      operationId: recognizePassport
+      tags:
+      - "Info"
+
+      parameters:
+      - in: formData
+        name: file
+        type: file
+        description: The file to upload
+
+      consumes:
+      - multipart/form-data
+
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/PassportResult'
+
+  /info/systeminfo:
+    get:
+      summary: Get system environment info
+      description: Get system environment info
+      operationId: environment
+      tags:
+      - "Info"
+
+      produces:
+      - application/json
+
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Environment'
+        500:
+          description: Internal error
+
+  /info/fielddocumenttypes/{id}:
+    get:
+      summary: Get document types
+      description: Get document types
+      operationId: fieldDocumentTypes
+      tags:
+      - "Info"
+
+      produces:
+      - application/json
+
+      parameters:
+      - in: path
+        name: id
+        type: string
+        required: true
+        description: Application ID
+
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: "#/definitions/FieldDocumentTypes"
+        500:
+          description: Internal error
+
+  /swagger/{swaggerFile}:
+    get:
+      summary: return swagger file
+      description: return swagger file
+      tags:
+      - "Info"
+      operationId: getSwaggerFile
+      parameters:
+      - $ref: '#/parameters/SwaggerFile'
+      responses:
+        200:
+          description: OK
+          schema:
+            type: file
+
+parameters:
+  SwaggerFile:
+    name: swaggerFile
+    in: path
+    description: swagger file name
+    required: true
+    type: string
+
+definitions:
+
+  EnvironmentLoginPage:
+    type: object
+    properties:
+      i18n:
+        $ref: '#/definitions/I18NStrings'
+      version:
+        $ref: '#/definitions/SysVersion'
+
+  Environment:
+    type: object
+    properties:
+      signingRoles:
+        type: array
+        items:
+          $ref: '#/definitions/LkbRole'
+      flags:
+        $ref: '#/definitions/SysFlags'
+      parameters:
+        $ref: '#/definitions/SysParameters'
+      i18n:
+        $ref: '#/definitions/I18NStrings'
+
+  FieldDocumentTypes:
+    type: array
+    items:
+      $ref: '#/definitions/FieldDocumentType'
+
+  FieldDocumentType:
+    type: object
+    properties:
+      id:
+        type: integer
+      legalentitytype:
+        type: string
+      name:
+        type: string
+      description:
+        type: string
+
+  I18NStrings:
+    type: object
+    additionalProperties:
+      type: string
+
+  LkbRole:
+    type: object
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      blocks:
+        type: array
+        items:
+          type: string
+
+  SysVersion:
+    type: 'object'
+    properties:
+      version:
+        type: 'string'
+
+  SysParameters:
+    type: array
+    items:
+      $ref: '#/definitions/SysParameter'
+
+  SysParameter:
+    type: object
+    properties:
+      code:
+        type: string
+      desc:
+        type: string
+      value:
+        type: string
+      variants:
+        type: object
+        additionalProperties:
+          $ref: '#/definitions/Variant'
+
+  Variant:
+    type: object
+    properties:
+      value:
+        type: string
+      artifactName:
+        type: string
+
+  SysFlags:
+    type: array
+    items:
+      $ref: '#/definitions/SysFlag'
+
+  SysFlag:
+    type: object
+    properties:
+      code:
+        type: string
+      value:
+        type: boolean
+
+  PassportResult:
+    type: object
+    properties:
+      data:
+        $ref: '#/definitions/Passport'
+      message:
+        type: string
+
+  Passport:
+    type: object
+    properties:
+      unitCode:
+        type: string
+      number:
+        type: string
+      dataIssue:
+        type: string
+      placeBirth:
+        type: string
+      gender:
+        type: string
+      fio:
+        type: string
+      whoIssue:
+        type: string
+      dateBirth:
+        type: string

@@ -1,0 +1,65 @@
+swagger: "2.0"
+info:
+  description: 'LKK API'
+  version: '1.0.0'
+  title: 'LKK API'
+tags:
+
+- name: "User"
+  description: Updating and getting information about current User
+
+basePath: /api
+paths:
+
+  # User
+  /user:
+    get:
+      summary: Return information about user
+      description: Return information about user
+      tags:
+      - User
+      operationId: getUser
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/User'
+    post:
+      summary: update information of user
+      description: update information of user
+      tags:
+      - User
+      operationId: updateUser
+      parameters:
+      - in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/User'
+      responses:
+        200:
+          description: OK
+
+
+
+
+
+
+definitions:
+
+  User:
+    type: object
+    properties:
+      surname:
+        type: string
+      name:
+        type: string
+      parname:
+        type: string
+      phone:
+        type: string
+      email:
+        type: string
+
+
+

@@ -1,0 +1,167 @@
+swagger: "2.0"
+info:
+  description: 'LKK API'
+  version: '1.0.0'
+  title: 'LKK API'
+tags:
+- name: "Session"
+  description: Authentication, authorization, registration API
+
+basePath: /api
+
+paths:
+
+
+  # Session
+  /session/login:
+    post:
+      summary: Login
+      operationId: login
+      tags:
+      - Session
+      parameters:
+      - in: body
+        name: login
+        description: login
+        required: true
+        schema:
+          $ref: '#/definitions/LoginRequest'
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        200:
+          description: Success login
+        401:
+          description: Creditals are incorrect
+          schema:
+            $ref: '#/definitions/ErrorMessage'
+        400:
+          description: Validation error
+          schema:
+            $ref: '#/definitions/ErrorMessage'
+
+  /session/registration:
+    post:
+      summary: Registration
+      operationId: registration
+      description: Registration
+      tags:
+      - Session
+      consumes:
+      - application/json
+      parameters:
+      - in: body
+        name: registration
+        description: registration
+        required: true
+        schema:
+          $ref: '#/definitions/RegistrationRequest'
+      produces:
+      - application/json
+      responses:
+        200:
+          description: OK
+        409:
+          description: Duplicate
+
+  /session/logout:
+    get:
+      operationId: logout
+      summary: Logout
+      description: Logout
+      tags:
+      - Session
+      responses:
+        200:
+          description: OK
+
+  /session/sms-code:
+    post:
+      summary: Send code to phone
+      description: Send code to phone
+      tags:
+      - Session
+      operationId: sendSmsCode
+      parameters:
+      - in: body
+        name: phone
+        required: true
+        schema:
+          $ref: '#/definitions/SmsCode'
+      responses:
+        200:
+          description: OK
+
+  /session/email-code:
+    post:
+      summary: Send code to email
+      description: Send code to email
+      tags:
+      - Session
+      operationId: sendEmailCode
+      parameters:
+      - in: body
+        name: email
+        required: true
+        schema:
+          $ref: '#/definitions/EmailCode'
+      responses:
+        200:
+          description: OK
+
+
+
+
+
+
+definitions:
+
+  RegistrationRequest:
+    type: object
+    properties:
+      surname:
+        type: string
+      name:
+        type: string
+      parname:
+        type: string
+      email:
+        type: string
+      code:
+        type: string
+
+  LoginRequest:
+    type: object
+    properties:
+      phone:
+        type: string
+      code:
+        type: string
+
+  ErrorMessage:
+    type: 'object'
+    properties:
+      message:
+        description: 'description error'
+        type: 'string'
+
+  SmsCode:
+    type: object
+    properties:
+      phone:
+        type: string
+
+  EmailCode:
+    type: object
+    properties:
+      email:
+        type: string
+
+
+
+
+
+
+

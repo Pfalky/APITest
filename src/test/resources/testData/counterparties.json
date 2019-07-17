@@ -1,0 +1,29 @@
+{
+  "counterParty": [
+    {
+      "counterpartyINN": "9731009774",
+      "counterpartyShortName": "ООО \"ПФК\"",
+      "counterpartyFactAdress": "121357, город Москва, улица Артамонова, дом 6, корпус 3, помещение 24"
+    },
+    {
+      "counterpartyINN": "9715316168",
+      "counterpartyShortName": "ООО \"ИФР\"",
+      "counterpartyFactAdress": "119049, город Москва, улица Мытная, дом 1, строение 1"
+    },
+    {
+      "counterpartyINN": "525005453507",
+      "counterpartyShortName": "ИП Козырев Вадим Михайлович",
+      "counterpartyFactAdress": ""
+    },
+    {
+      "counterpartyINN": "7703743997",
+      "counterpartyShortName": "ООО \"Софтвей\"",
+      "counterpartyFactAdress": "123056, город Москва, улица Грузинская Б. , 36А, стр. 5"
+    },
+    {
+      "counterpartyINN": "772735946962",
+      "counterpartyShortName": "ИП Попов Алексей Сергеевич",
+      "counterpartyFactAdress": "город Москва"
+    }
+  ]
+}

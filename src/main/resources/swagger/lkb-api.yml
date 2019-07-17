@@ -1,0 +1,1383 @@
+swagger: "2.0"
+info:
+  description: 'LKB API'
+  version: '1.0.0'
+  title: 'LKB API'
+tags:
+- name: "Application"
+  description: Application CRUD and businesslogic API
+- name: "BusinessProcess"
+  description: Business process API
+- name: "External"
+  description: INN info
+- name: "UserInfo"
+  description: User Info
+- name: "Office"
+  description: Office Info
+- name: "Declaration"
+  description: Declaration CRUD and businesslogic API
+- name: "Agent"
+  description: Agent API
+- name: "Dictionaries"
+  description: Dictionaries API
+- name: "Acts"
+  description: Acts API
+- name: "Info"
+  description: Common Info API
+
+paths:
+  /user/info/:
+    get:
+      summary: Return User Info
+      description: Return User Info
+      operationId: userInfo
+      tags:
+      - "UserInfo"
+
+      produces:
+      - application/json
+
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: "#/definitions/UserInfo"
+
+  /user/signer:
+    get:
+      summary: Get all signers
+      description: Get all signers
+      operationId: signers
+      tags:
+      - "UserInfo"
+
+      produces:
+      - application/json
+
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: "#/definitions/UserInfos"
+
+  /application/:
+    get:
+      summary: Return all the applications
+      description: Retrun all the applications of the current user
+      operationId: applicationList
+      tags:
+      - "Application"
+
+      parameters:
+      - in: query
+        name: limit
+        type: integer
+        description: Limit of records
+      - in: query
+        name: offset
+        type: integer
+        description: Start position
+      - in: query
+        name: substring
+        type: string
+        description: INN/app number/client substring
+      - in: query
+        name: datefrom
+        type: string
+        description: Filter by date from
+      - in: query
+        name: dateto
+        type: string
+        description: Filter by date to
+      - in: query
+        name: closedatefrom
+        type: string
+        description: Filter by closing date from
+      - in: query
+        name: closedateto
+        type: string
+        description: Filter by closing date to
+      - in: query
+        name: signers
+        type: array
+        collectionFormat: csv
+        items:
+          type: string
+        description: Signer (employee) ID
+      - in: query
+        name: offices
+        type: array
+        collectionFormat: csv
+        items:
+          type: string
+        description: Office or branch office ID
+      - in: query
+        name: work
+        type: integer
+        description: 0 - none, 1 - taken to work, 2 - not taken to work
+      - in: query
+        name: statusid
+        type: array
+        collectionFormat: csv
+        items:
+          type: integer
+        description: Filter by status
+
+      produces:
+      - application/json
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: "#/definitions/ApplicationList"
+        500:
+          description: Internal error
+          schema:
+            $ref: '#/definitions/ErrorMessage'
+
+  /application/count/:
+    get:
+      summary: Return all the applications
+      description: Retrun all the applications of the current user
+      operationId: applicationCount
+      tags:
+      - "Application"
+
+      parameters:
+      - in: query
+        name: limit
+        type: integer
+        description: Limit of records
+      - in: query
+        name: substring
+        type: string
+        description: INN/app number/client substring
+      - in: query
+        name: offset
+        type: integer
+        description: Start position
+      - in: query
+        name: datefrom
+        type: string
+        description: Filter by date from
+      - in: query
+        name: dateto
+        type: string
+        description: Filter by date to
+      - in: query
+        name: closedatefrom
+        type: string
+        description: Filter by closing date from
+      - in: query
+        name: closedateto
+        type: string
+        description: Filter by closing date to
+      - in: query
+        name: signers
+        type: array
+        collectionFormat: csv
+        items:
+          type: string
+        description: Signer (employee) IDs
+      - in: query
+        name: offices
+        type: array
+        collectionFormat: csv
+        items:
+          type: string
+        description: Office or branch office IDs
+      - in: query
+        name: work
+        type: integer
+        description: 0 - none, 1 - taken to work, 2 - not taken to work
+      - in: query
+        name: statusid
+        type: array
+        collectionFormat: csv
+        items:
+          type: integer
+        description: Filter by status
+
+      produces:
+      - application/json
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: "#/definitions/CountResult"
+        500:
+          description: Internal error
+          schema:
+            $ref: '#/definitions/ErrorMessage'
+
+  /application/{applicationid}/step/{action}:
+    post:
+      summary: Execture next business process
+      description: Execture next business process step
+      operationId: nextStep
+
+      tags:
+      - "BusinessProcess"
+
+      parameters:
+      - in: path
+        name: applicationid
+        type: string
+        required: true
+        description: Application ID
+      - in: path
+        name: action
+        type: string
+        required: true
+        description: Action (branch name)
+      - in: body
+        name: request
+        required: false
+        schema:
+          $ref: "#/definitions/StepData"
+
+      consumes:
+      - application/json
+      produces:
+      - application/json
+
+      responses:
+        200:
+          description: OK
+        400:
+          description: Request error
+        404:
+          description: Not found
+        500:
+          description: Internal error
+          schema:
+            $ref: '#/definitions/ErrorMessage'
+
+  /application/{applicationid}/signature/:
+    get:
+      summary: Return application signatures
+      description: Return application signatures
+      operationId: applicationSignatures
+      tags:
+      - "Application"
+      parameters:
+      - $ref: '#/parameters/ApplicationId'
+      produces:
+      - application/json
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: "#/definitions/SignatureList"
+        500:
+          description: Internal error
+          schema:
+            $ref: '#/definitions/ErrorMessage'
+
+  /application/{applicationid}/decision:
+    get:
+      summary: Get application decision
+      description: Get application decision
+      operationId: getDecision
+      tags:
+      - "Application"
+
+      parameters:
+      - in: path
+        name: applicationid
+        type: string
+        required: true
+        description: Application ID
+
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: "#/definitions/Decision"
+        404:
+          description: Not found
+        500:
+          description: Internal error
+
+    post:
+      summary: Make a decision of application
+      description: Make a decision of application
+      operationId: makeDecision
+      tags:
+      - "Application"
+
+      parameters:
+      - in: path
+        name: applicationid
+        type: string
+        required: true
+        description: Application ID
+      - in: body
+        name: decision
+        required: true
+        schema:
+          $ref: "#/definitions/Decision"
+
+      responses:
+        200:
+          description: OK
+        404:
+          description: Not found
+        500:
+          description: Internal error
+
+    patch:
+      summary: Update decision comment
+      description: Update decision comment
+      operationId: updateDecisionComment
+      tags:
+      - "Application"
+
+      parameters:
+      - in: path
+        name: applicationid
+        type: string
+        required: true
+        description: Application ID
+      - in: body
+        name: decision
+        required: true
+        schema:
+          $ref: "#/definitions/Decision"
+
+      responses:
+        200:
+          description: OK
+        404:
+          description: Not found
+        500:
+          description: Internal error
+
+  /application/{applicationid}/reserveaccount/:
+    post:
+      summary: Reserve account
+      description: Reserve account
+      operationId: reserveAccount
+      tags:
+      - "Application"
+      parameters:
+      - in: path
+        name: applicationid
+        type: string
+        required: true
+        description: Application ID
+      - in: body
+        name: account
+        required: true
+        schema:
+          $ref: "#/definitions/ReservedAccount"
+
+      responses:
+        200:
+          description: OK
+        404:
+          description: Not found
+        500:
+          description: Internal error
+
+
+  /application/{applicationid}/status/:
+    get:
+      summary: Return application statuses
+      description: Return application statuses
+      operationId: applicationStatuses
+      tags:
+      - "Application"
+      parameters:
+      - in: path
+        name: applicationid
+        type: string
+        required: true
+        description: Application ID
+
+      produces:
+      - application/json
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: "#/definitions/StatusList"
+        500:
+          description: Internal error
+          schema:
+            $ref: '#/definitions/ErrorMessage'
+
+  /application/{applicationid}/docrequirement/:
+    post:
+      summary: Create application document requirement
+      description: Create application document requirement
+      operationId: createDocRequirement
+      tags:
+      - "Application"
+      parameters:
+      - in: path
+        name: applicationid
+        type: string
+        required: true
+        description: Application ID
+      - in: body
+        name: requirement
+        required: true
+        schema:
+          $ref: "#/definitions/DocReqPost"
+
+      produces:
+      - application/json
+      consumes:
+      - application/json
+      responses:
+        200:
+          description: OK
+        500:
+          description: Internal error
+
+  /application/{applicationid}/generatebankform:
+    post:
+      summary: generate bank form
+      description: generate bank form
+      operationId: generateBankForm
+      tags:
+      - Application
+      parameters:
+      - $ref: '#/parameters/ApplicationId'
+      responses:
+        200:
+          description: OK
+
+
+  /application/{applicationid}/work:
+    get:
+      summary: take to work
+      description: take to work
+      operationId: takeToWork
+
+      tags:
+      - "Application"
+
+      parameters:
+      - $ref: '#/parameters/ApplicationId'
+
+      produces:
+      - application/json
+
+      responses:
+        200:
+          description: OK
+        500:
+          description: Internal error
+          schema:
+            $ref: '#/definitions/ErrorMessage'
+
+    delete:
+      summary: remove to work
+      description: remove to work
+      operationId: removeFromWork
+      tags:
+      - "Application"
+
+      parameters:
+      - $ref: '#/parameters/ApplicationId'
+
+      produces:
+      - application/json
+
+      responses:
+        200:
+          description: OK
+        500:
+          description: Internal error
+          schema:
+            $ref: '#/definitions/ErrorMessage'
+
+  /application/statuscount/:
+    get:
+      summary: Get status count result
+      description: Get status count result
+      operationId: statusCount
+      tags:
+      - "Application"
+
+      produces:
+      - application/json
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/StatusCount'
+        500:
+          description: Internal error
+          schema:
+            $ref: '#/definitions/ErrorMessage'
+
+  /info/inn/{inn}/:
+    get:
+      summary: Get INN info
+      description: Get INN info
+      operationId: innInfo
+      tags:
+      - "External"
+
+      parameters:
+      - in: path
+        name: inn
+        type: string
+        required: true
+        description: INN
+
+      produces:
+      - application/json
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: "#/definitions/CheckClientResult"
+        500:
+          description: Internal error
+          schema:
+            $ref: '#/definitions/ErrorMessage'
+
+
+  /declaration/active:
+    get:
+      summary: Get active declarations
+      description: Get active declarations
+      operationId: activeDeclarations
+      tags:
+      - "Declaration"
+
+      parameters:
+      - in: query
+        name: searchStr
+        type: string
+        required: false
+        description: Search substring
+      - in: query
+        name: product
+        type: integer
+        required: false
+        description: Product filter
+
+      produces:
+      - application/json
+
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: "#/definitions/DeclarationInfoList"
+        500:
+          description: Internal error
+          schema:
+            $ref: '#/definitions/ErrorMessage'
+
+  /declaration/info/{id}:
+    get:
+      summary: Get declaration by ID
+      description: Get declaration by ID
+      operationId: getDeclaration
+      tags:
+      - "Declaration"
+
+      parameters:
+      - in: path
+        name: id
+        type: string
+        required: true
+        description: Declaration UUID
+
+      produces:
+      - application/json
+
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/DeclarationInfo'
+        404:
+          description: Not found
+        500:
+          description: Internal error
+          schema:
+            $ref: '#/definitions/ErrorMessage'
+
+  /declaration/modify/{id}:
+    patch:
+      summary: Modify declaration payment info
+      description: Modify declaration payment info
+      operationId: modifyDeclaration
+      tags:
+      - "Declaration"
+
+      parameters:
+      - in: path
+        name: id
+        type: string
+        required: true
+        description: Declaration UUID
+      - in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/DeclarationChange'
+
+      responses:
+        200:
+          description: OK
+        404:
+          description: Not found
+        500:
+          description: Internal error
+
+  /act/{agent}/{product}/{paymentSum}/{period}/{paymentdate}:
+    post:
+      summary: Create agent act
+      description: Create agent act
+      operationId: createAgentAct
+      tags:
+      - "Agent"
+
+      parameters:
+      - in: path
+        name: agent
+        type: string
+        required: true
+        description: Agent UUID
+      - in: path
+        name: product
+        type: integer
+        required: true
+        description: product ID
+      - in: path
+        name: paymentSum
+        type: string
+        required: true
+        description: Payment sum
+      - in: path
+        name: period
+        type: string
+        required: true
+        description: Act period
+      - in: path
+        name: paymentdate
+        type: string
+        required: true
+        description: Payment date
+      - in: formData
+        name: data
+        type: file
+        description: The file to upload
+
+      consumes:
+      - multipart/form-data
+
+      responses:
+        200:
+          description: OK
+        500:
+          description: Error
+
+  /agent:
+    get:
+      summary: Get agents list
+      description: Get agents list
+      operationId: agents
+      tags:
+      - "Agent"
+
+      produces:
+      - application/json
+
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Agents'
+        500:
+          description: Internal error
+
+  /product:
+    get:
+      summary: Get products list
+      description: Get product list
+      operationId: products
+      tags:
+      - "Products"
+
+      produces:
+      - application/json
+
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Products'
+        500:
+          description: Internal error
+
+  /product/prko:
+    get:
+      summary: Get products list
+      description: Get product list
+      operationId: prkoProducts
+      tags:
+      - "Products"
+
+      produces:
+      - application/json
+
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/PrkoProducts'
+        500:
+          description: Internal error
+
+  /status:
+    get:
+      summary: Get status list
+      description: Get status list
+      operationId: statusList
+      tags:
+      - "Dictionaries"
+
+      produces:
+      - application/json
+
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/StatusList'
+        500:
+          description: Internal error
+
+  /acts:
+    get:
+      summary: Get acts list
+      description: Get acts list
+      operationId: actList
+      tags:
+      - "Acts"
+
+      produces:
+      - application/json
+
+      parameters:
+      - in: query
+        name: agentid
+        type: string
+        description: Filter by Agent ID
+      - in: query
+        name: productid
+        type: integer
+        description: Filter by product ID
+
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Acts'
+        500:
+          description: Internal error
+
+
+
+parameters:
+  ApplicationId:
+    name: applicationid
+    in: path
+    description: application id
+    required: true
+    type: string
+
+  Executetime:
+    in: path
+    name: executetime
+    type: string
+    required: true
+    description: Execute Time
+
+  CheckType:
+    in: path
+    name: checktype
+    type: integer
+    required: true
+    description: Check type
+
+definitions:
+  DocReqPost:
+    type: object
+    properties:
+      req:
+        $ref: '#/definitions/AppDocRequirement'
+
+  Agent:
+    type: 'object'
+    properties:
+      id:
+        type: 'string'
+      fio:
+        type: 'string'
+      login:
+        type: 'string'
+
+  Agents:
+    type: array
+    items:
+      $ref: '#/definitions/Agent'
+
+  Acts:
+    type: array
+    items:
+      $ref: '#/definitions/Act'
+
+  Act:
+    type: object
+    properties:
+      number:
+        type: 'string'
+      agent:
+        type: 'object'
+        $ref: '#/definitions/Agent'
+      period:
+        type: 'string'
+      product:
+        type: 'object'
+        $ref: '#/definitions/Product'
+      paymentsum:
+        type: 'string'
+      paymentdate:
+        type: 'string'
+      binaryuuid:
+        type: 'string'
+
+  AppDocRequirement:
+    type: 'object'
+    properties:
+      id:
+        type: 'string'
+      comment:
+        type: 'string'
+      artifactname:
+        type: 'string'
+      documentId:
+        type: 'string'
+
+  ApplicationList:
+    type: array
+    items:
+      $ref: '#/definitions/AppItem'
+
+  AppItem:
+    type: object
+    properties:
+      application:
+        $ref: '#/definitions/Application'
+      actions:
+        type: array
+        items:
+          $ref: '#/definitions/ActionInfo'
+      infos:
+        type: array
+        items:
+          $ref: '#/definitions/AppItemRoleInfo'
+
+  ActionInfo:
+    type: object
+    properties:
+      name:
+        type: string
+      action:
+        type: string
+      type:
+        type: string
+
+  AppItemRoleInfo:
+    type: object
+    properties:
+      id:
+        type: integer
+      title:
+        type: string
+
+  Application:
+    type: 'object'
+    properties:
+      id:
+        type: 'string'
+      regaddress:
+        type: 'string'
+      regdate:
+        type: 'string'
+      orgname:
+        type: 'string'
+      orgnameshort:
+        type: 'string'
+      inn:
+        type: 'string'
+      kpp:
+        type: 'string'
+      ogrn:
+        type: 'string'
+      okpo:
+        type: 'string'
+      legalform:
+        type: 'string'
+      okved:
+        type: 'string'
+      actualStatus:
+        type: 'object'
+        $ref: '#/definitions/Status'
+      ownershipform:
+        type: 'string'
+      number:
+        type: 'string'
+      contactPerson:
+        type: 'string'
+      createdate:
+        type: 'string'
+      modifydate:
+        type: 'string'
+      employee:
+        type: 'string'
+      signatures:
+        type: 'string'
+      bankoffice:
+        type: 'object'
+        $ref: '#/definitions/Office'
+      opened:
+        type: 'boolean'
+      passportCount:
+        type: 'integer'
+      failChecks:
+        type: 'boolean'
+      client:
+        type: 'object'
+        $ref: '#/definitions/Client'
+      promocode:
+        type: 'string'
+      resolution:
+        type: 'object'
+
+  Bank:
+    type: 'object'
+    properties:
+      id:
+        type: 'integer'
+      name:
+        type: 'string'
+      inn:
+        type: 'string'
+      kpp:
+        type: 'string'
+      okpo:
+        type: 'string'
+      ogrn:
+        type: 'string'
+      offices:
+        $ref: '#/definitions/Offices'
+
+
+  CountResult:
+    type: 'object'
+    properties:
+      count:
+        type: 'integer'
+
+
+  CheckClientResult:
+    type: 'object'
+    properties:
+      ownershipForm:
+        type: 'object'
+        $ref: '#/definitions/OwnershipForm'
+      okved:
+        type: 'object'
+        $ref: '#/definitions/Okved'
+      legalForm:
+        type: 'object'
+        $ref: '#/definitions/LegalForm'
+      counterparties:
+        type: 'array'
+        items:
+          type: 'object'
+          $ref: '#/definitions/Counterparty'
+      individuals:
+        type: 'array'
+        items:
+          type: 'object'
+          $ref: '#/definitions/Individual'
+      checks:
+        type: 'array'
+        items:
+          type: 'object'
+          $ref: '#/definitions/CheckElement'
+
+  CheckElement:
+    type: object
+    properties:
+      name:
+        type: string
+      order:
+        type: integer
+      status:
+        type: integer
+      result:
+        type: string
+
+  Client:
+    type: object
+    properties:
+      contactfio:
+        type: 'string'
+      fio:
+        type: 'string'
+      name:
+        type: 'string'
+      number:
+        type: 'string'
+      phone:
+        type: 'string'
+      email:
+        type: 'string'
+      type:
+        type: 'string'
+      createdate:
+        type: 'string'
+      inn:
+        type: 'string'
+      hasapplication:
+        type: 'boolean'
+      obj:
+        type: 'object'
+
+  ConsiderationResult:
+    type: 'object'
+    properties:
+      openingdate:
+        type: 'string'
+      type:
+        type: 'string'
+      result:
+        type: 'string'
+      comment:
+        type: 'string'
+
+  Counterparty:
+    type: 'object'
+    properties:
+      id:
+        type: 'string'
+      office:
+        type: 'object'
+        $ref: '#/definitions/Office'
+      factadress:
+        type: 'string'
+
+  Decision:
+    type: 'object'
+    properties:
+      decision:
+        type: 'string'
+      comment:
+        type: 'string'
+
+  DeclarationInfo:
+    type: 'object'
+    properties:
+      id:
+        type: 'string'
+      orgnameshort:
+        type: 'string'
+      fictive:
+        type: 'boolean'
+      number:
+        type: 'string'
+      product:
+        type: 'object'
+        $ref: '#/definitions/Product'
+      createdate:
+        type: 'string'
+      paymentdate:
+        type: 'string'
+      accountOpeningDate:
+        type: 'string'
+      client:
+        type: 'object'
+        $ref: '#/definitions/Client'
+      inn:
+        type: 'string'
+      contactPerson:
+        type: 'string'
+      contactPhone:
+        type: 'string'
+      contactEmail:
+        type: 'string'
+      agent:
+        type: 'object'
+        $ref: '#/definitions/Agent'
+      paidamount:
+        type: 'string'
+      bank:
+        type: 'object'
+        $ref: '#/definitions/Bank'
+      actualStatus:
+        type: 'object'
+        $ref: '#/definitions/Status'
+      appcreatedate:
+        type: 'string'
+      documents:
+        type: 'object'
+        additionalProperties:
+          type: 'object'
+          properties:
+            type:
+              type: 'string'
+            documents:
+              type: 'array'
+              items:
+                $ref: '#/definitions/Document'
+
+  DeclarationInfoList:
+    type: array
+    items:
+      $ref: '#/definitions/DeclarationInfo'
+
+  DeclarationChange:
+    type: object
+    properties:
+      appcreate:
+        type: 'string'
+      appopendate:
+        type: 'string'
+      selectedStatus:
+        type: 'integer'
+      paymentsum:
+        type: 'string'
+      paymentdate:
+        type: 'string'
+      declaration_is_closed:
+        type: 'boolean'
+
+  Document:
+    type: object
+    properties:
+      uuid:
+        type: 'string'
+      name:
+        type: 'string'
+
+  ErrorMessage:
+    type: 'object'
+    properties:
+      message:
+        description: 'description error'
+        type: 'string'
+
+
+  Individual:
+    type: 'object'
+    properties:
+      id:
+        type: 'string'
+      fio:
+        type: 'string'
+      position:
+        type: 'string'
+      datebirth:
+        type: 'string'
+
+  LegalForm:
+    type: 'object'
+    properties:
+      id:
+        type: 'integer'
+      code:
+        type: 'string'
+      name:
+        type: 'string'
+
+  LkbRole:
+    type: object
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      blocks:
+        type: array
+        items:
+          type: string
+
+  Offices:
+    type: 'array'
+    items:
+      $ref: '#/definitions/Office'
+
+  Office:
+    type: 'object'
+    properties:
+      id:
+        type: 'string'
+      name:
+        type: 'string'
+      city:
+        type: 'string'
+      shortaddress:
+        type: 'string'
+      fulladdress:
+        type: 'string'
+      cftcode:
+        type: 'string'
+      cftcalendar:
+        type: 'string'
+      bik:
+        type: 'string'
+      korr:
+        type: 'string'
+      branchcode:
+        type: 'string'
+      code:
+        type: 'string'
+
+  Okved:
+    type: 'object'
+    properties:
+      id:
+        type: 'integer'
+      code:
+        type: 'string'
+      name:
+        type: 'string'
+
+  OwnershipForm:
+    type: 'object'
+    properties:
+      id:
+        type: 'integer'
+      name:
+        type: 'string'
+
+  Products:
+    type: array
+    items:
+      $ref: '#/definitions/Product'
+
+  Product:
+    type: 'object'
+    properties:
+      id:
+        type: 'integer'
+      name:
+        type: 'string'
+
+  PrkoProducts:
+    type: array
+    items:
+      $ref: '#/definitions/PrkoProduct'
+
+  PrkoProduct:
+    type: 'object'
+    properties:
+      id:
+        type: 'integer'
+      name:
+        type: 'string'
+
+  RefuseAccountRequest:
+    type: object
+    properties:
+      comment:
+        type: string
+        example: 'Не пройдена внутренняя проверка'
+
+  ReservedAccount:
+    type: 'object'
+    properties:
+      type:
+        type: 'string'
+      accountnumber:
+        type: 'string'
+      openingdate:
+        type: 'string'
+      prkoproduct:
+        type: 'integer'
+
+  SignAccountRequest:
+    type: object
+    properties:
+      comment:
+        type: string
+        example: 'Все проверки проведены'
+
+  Signature:
+    type: 'object'
+    properties:
+      applicationid:
+        type: 'string'
+      employeeid:
+        type: 'string'
+      datetime:
+        type: 'string'
+      signed:
+        type: 'boolean'
+
+  SignatureList:
+    type: array
+    items:
+      $ref: '#/definitions/Signature'
+
+  Status:
+    type: 'object'
+    properties:
+      id:
+        type: 'integer'
+      code:
+        type: 'string'
+      name:
+        type: 'string'
+      info:
+        type: 'string'
+
+  StatusList:
+    type: array
+    items:
+      $ref: '#/definitions/Status'
+
+  StatusCount:
+    type: 'object'
+    additionalProperties:
+      type: 'object'
+      additionalProperties:
+        type: 'integer'
+
+  StepData:
+    type: object
+    additionalProperties:
+      type: string
+
+  UserInfos:
+    type: array
+    items:
+      $ref: '#/definitions/UserInfo'
+
+  UserInfo:
+    type: 'object'
+    properties:
+      userFio:
+        type: 'string'
+      employeeId:
+        type: 'string'
+      roleString:
+        type: 'string'
+      roles:
+        type: array
+        items:
+          $ref: '#/definitions/LkbRole'
+

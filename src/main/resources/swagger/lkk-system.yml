@@ -1,0 +1,38 @@
+swagger: "2.0"
+info:
+  description: 'LKK API'
+  version: '1.0.0'
+  title: 'LKK API'
+tags:
+  - name: "System"
+    description: System info
+
+basePath: /api
+paths:
+
+  /env:
+    get:
+      summary: Return information about env
+      description: Return information about env
+      tags:
+        - System
+      operationId: getEnvironments
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/EnvironmentObject'
+
+definitions:
+
+  EnvironmentObject:
+    type: object
+    additionalProperties:
+      type: object
+
+
+
+
+
+
+

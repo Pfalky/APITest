@@ -1,0 +1,90 @@
+swagger: "2.0"
+info:
+  description: 'Binary API'
+  version: '1.0.0'
+  title: 'Binary API'
+tags:
+  - name: "Binary"
+paths:
+  /binary/{id}:
+    delete:
+      tags:
+        - "Binary"
+      summary: 'Delete object'
+      operationId: 'deleteObject'
+      parameters:
+      - in: path
+        name: id
+        type: string
+        required: true
+        description: 'ID of an object'
+      consumes:
+      - '*/*'
+      produces:
+      - 'application/json'
+      responses:
+        200:
+          schema:
+            type: string
+        404:
+          description: 'Not found'
+
+    patch:
+      summary: 'Update object'
+      tags:
+      - "Binary"
+      operationId: 'updateObject'
+      consumes:
+      - 'multipart/form-data'
+      parameters:
+      - in: path
+        name: id
+        type: string
+        required: true
+        description: 'ID of an object'
+      - in: formData
+        name: upFile
+        type: file
+        required: true
+      responses:
+        200:
+          schema:
+            $ref: '#/definitions/Binary'
+        404:
+          description: 'Not found'
+
+  /binary/:
+    post:
+      summary: 'Create object'
+      tags:
+      - "Binary"
+      operationId: 'createObject'
+      consumes:
+      - 'multipart/form-data'
+      parameters:
+      - in: formData
+        name: upFile
+        type: file
+        required: true
+      responses:
+        200:
+          schema:
+            $ref: '#/definitions/Binary'
+        404:
+          description: 'Not found'
+
+definitions:
+  BinaryList:
+    type: 'array'
+    items:
+      $ref: '#/definitions/Binary'
+
+  Binary:
+    type: 'object'
+    properties:
+      id:
+        type: 'string'
+      name:
+        type: 'string'
+      mimetype:
+        type: 'string'

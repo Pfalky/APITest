@@ -1,0 +1,78 @@
+swagger: "2.0"
+info:
+  description: 'LKU API'
+  version: '1.0.0'
+  title: 'LKU API'
+tags:
+- name: "Logotype"
+  description: Logotype API
+
+paths:
+  /logo/login:
+    get:
+      summary: Get login logo
+      description: Get login logo
+      operationId: getLoginLogo
+      tags:
+      - Logotype
+
+      produces:
+      - image/*
+
+      responses:
+        200:
+          description: OK
+          schema:
+            type: file
+          headers:
+            Content-Disposition:
+              type: string
+
+        500:
+          description: Internal error
+
+  /logo/system:
+    get:
+      summary: Get upper menu logo
+      description: Get upper menu logo
+      operationId: getUpperMenuLogo
+      tags:
+      - Logotype
+
+      produces:
+      - image/*
+
+      responses:
+        200:
+          description: OK
+          schema:
+            type: file
+          headers:
+            Content-Disposition:
+              type: string
+
+        500:
+          description: Internal error
+
+  /logo/favicon:
+    get:
+      summary: Get favicon logo
+      description: Get favicon logo
+      operationId: getFavicon
+      tags:
+      - Logotype
+
+      produces:
+      - image/*
+
+      responses:
+        200:
+          description: OK
+          schema:
+            type: file
+          headers:
+            Content-Disposition:
+              type: string
+
+        500:
+          description: Internal error

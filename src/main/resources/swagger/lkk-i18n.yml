@@ -1,0 +1,43 @@
+swagger: "2.0"
+info:
+  description: 'LKK API'
+  version: '1.0.0'
+  title: 'LKK API'
+tags:
+- name: "I18N"
+  description: I18N API
+
+basePath: /api
+paths:
+  /i18n:
+    get:
+      summary: Get i18n strings
+      description: Get i18n strings
+      operationId: i18nStrings
+      tags:
+      - I18N
+
+      parameters:
+      - in: query
+        name: preparehtml
+        type: boolean
+        required: false
+        description: Render markdown to HTML
+
+      produces:
+      - application/json
+
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/I18NStrings'
+
+        500:
+          description: Internal error
+
+definitions:
+  I18NStrings:
+    type: object
+    additionalProperties:
+      type: string

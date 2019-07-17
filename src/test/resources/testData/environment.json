@@ -1,0 +1,120 @@
+{
+	"Environment": [
+		{
+			"value": "http://serverAdress.ru",
+			"key": "LINK_LKB"
+		},
+		{
+			"value": "http://serverAdress.ru",
+			"key": "LINK_LKK"
+		},
+		{
+			"value": "RU",
+			"key": "LANGUAGE"
+		},
+		{
+			"value": "RU",
+			"key": "language"
+		},
+		{
+			"value": "17378d55-6658-4d8b-9d02-d09d91662268",
+			"key": "system_logo"
+		},
+		{
+			"value": "dd5dc29d-9efa-4e21-8b94-f6d67517f3f2",
+			"key": "upper_menu_logo"
+		},
+		{
+			"value": "cf3d4940-7eb1-4d7e-a515-cf0d00c177a5",
+			"key": "favicon"
+		},
+		{
+			"value": "http://test.ru",
+			"key": "LINK_SITE"
+		},
+		{
+			"value": "2.1.0-PFK",
+			"key": "VERSION_LKU"
+		},
+		{
+			"value": "false",
+			"key": "HIDE_QUESTIONNAIRE"
+		},
+		{
+			"value": "true",
+			"key": "SHOW_CHECK_INN_IN_LKB"
+		},
+		{
+			"value": "true",
+			"key": "SHOW_RECOGNIZE"
+		},
+		{
+			"value": "true",
+			"key": "SHOW_EMPTY_DOCTYPES_IN_LKB"
+		},
+		{
+			"value": "false",
+			"key": "HIDE_INVITED_MANAGER"
+		},
+		{
+			"value": "false",
+			"key": "HIDE_OFFICE"
+		},
+		{
+			"value": "false",
+			"key": "HIDE_AGENTS_FUNC_IN_LKB"
+		},
+		{
+			"value": "true",
+			"key": "HIDE_COMMUNICATION_METHOD"
+		},
+		{
+			"value": "false",
+			"key": "SELECT_PRODUCT_WHEN_OPENING"
+		},
+		{
+			"value": "2.1.0-PFK",
+			"key": "VERSION_LKB"
+		},
+		{
+			"value": "rgba(255,255,255,0.73)",
+			"key": "UPPER_MENU_COLOR"
+		},
+		{
+			"value": "2.1.0-PFK",
+			"key": "VERSION_LKK"
+		},
+		{
+			"value": "2.1.0-PFK",
+			"key": "VERSION_LKA"
+		},
+		{
+			"value": "rgba(212,164,92,0.6)",
+			"key": "UPPER_MENU_ACTIVE_ELEMENT_COLOR"
+		},
+		{
+			"value": "#d4840e",
+			"key": "UPPER_MENU_TEXT_COLOR"
+		},
+		{
+			"value": "b32bf9f5-ac0f-4acf-9d5f-1e89c5fc3f10",
+			"key": "LOGIN_LOGO"
+		},
+		{
+			"value": "f9f869d1-d5d8-4992-aa42-fef7c6f9ddab",
+			"key": "UPPER_MENU_LOGO"
+		},
+		{
+			"value": "e2747622-39c8-48cc-b0d0-73255cbf671a",
+			"key": "FAVICON"
+		},
+		{
+			"value": "ReservedAccount",
+			"key": "FINAL_RESULT"
+		},
+		{
+			"value": "2.1.0-PFK",
+			"key": "VERSION_LKV"
+		}
+	]
+}

@@ -1,0 +1,321 @@
+swagger: "2.0"
+info:
+  description: 'LKU API'
+  version: '1.0.0'
+  title: 'LKU API'
+tags:
+- name: "Logotype"
+  description: Logotype API
+
+paths:
+  /logo/login:
+    get:
+      summary: Get login logo
+      description: Get login logo
+      operationId: getLoginLogo
+      tags:
+      - Logotype
+
+      produces:
+      - image/*
+
+      responses:
+        200:
+          description: OK
+          schema:
+            type: file
+          headers:
+            Content-Disposition:
+              type: string
+
+        500:
+          description: Internal error
+
+    post:
+      summary: Save login logo
+      description: Save login logo
+      operationId: saveLoginLogo
+      tags:
+      - Logotype
+
+      consumes:
+      - multipart/form-data
+
+      parameters:
+      - in: formData
+        name: upfile
+        type: file
+        description: The file to upload
+
+      responses:
+        200:
+          description: OK
+
+        500:
+          description: Internal error
+
+  /logo/system:
+    get:
+      summary: Get upper menu logo
+      description: Get upper menu logo
+      operationId: getUpperMenuLogo
+      tags:
+      - Logotype
+
+      produces:
+      - image/*
+
+      responses:
+        200:
+          description: OK
+          schema:
+            type: file
+          headers:
+            Content-Disposition:
+              type: string
+
+        500:
+          description: Internal error
+
+    post:
+      summary: Save upper menu logo
+      description: Save upper menu logo
+      operationId: saveUpperMenuLogo
+      tags:
+      - Logotype
+
+      consumes:
+      - multipart/form-data
+
+      parameters:
+      - in: formData
+        name: upfile
+        type: file
+        description: The file to upload
+
+      responses:
+        200:
+          description: OK
+
+        500:
+          description: Internal error
+
+  /logo/favicon:
+    get:
+      summary: Get favicon logo
+      description: Get favicon logo
+      operationId: getFavicon
+      tags:
+      - Logotype
+
+      produces:
+      - image/*
+
+      responses:
+        200:
+          description: OK
+          schema:
+            type: file
+          headers:
+            Content-Disposition:
+              type: string
+
+        500:
+          description: Internal error
+
+    post:
+      summary: Save favicon logo
+      description: Save favicon logo
+      operationId: saveFavicon
+      tags:
+      - Logotype
+
+      consumes:
+      - multipart/form-data
+
+      parameters:
+      - in: formData
+        name: upfile
+        type: file
+        description: The file to upload
+
+      responses:
+        200:
+          description: OK
+
+        500:
+          description: Internal error
+
+  /system/color:
+    get:
+      summary: Get system colors
+      description: Get system colors
+      operationId: getSystemColors
+      tags:
+      - Logotype
+
+      produces:
+      - application/json
+
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/SystemColors'
+
+        500:
+          description: Internal error
+
+  /system/color/uppermenu:
+    get:
+      summary: Get upper menu color
+      description: Get upper menu color
+      operationId: getUpperMenuColor
+      tags:
+      - Logotype
+
+      produces:
+      - application/json
+
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/StringValue'
+
+        500:
+          description: Internal error
+
+    post:
+      summary: Update upper menu color
+      description: Update upper menu color
+      operationId: storeUpperMenuColor
+      tags:
+      - Logotype
+
+      consumes:
+      - application/json
+      produces:
+      - application/json
+
+      parameters:
+      - in: body
+        name: value
+        required: true
+        schema:
+          $ref: '#/definitions/StringValue'
+
+      responses:
+        200:
+          description: OK
+
+        500:
+          description: Internal error
+
+  /system/color/uppermenu/activelement:
+    get:
+      summary: Get upper menu active element color
+      description: Get upper menu active element color
+      operationId: getUpperMenuActiveElementColor
+      tags:
+      - Logotype
+
+      produces:
+      - application/json
+
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/StringValue'
+
+        500:
+          description: Internal error
+
+    post:
+      summary: Update upper menu active element color
+      description: Update upper menu active element color
+      operationId: storeUpperMenuActiveElementColor
+      tags:
+      - Logotype
+
+      consumes:
+      - application/json
+      produces:
+      - application/json
+
+      parameters:
+      - in: body
+        name: value
+        required: true
+        schema:
+          $ref: '#/definitions/StringValue'
+
+      responses:
+        200:
+          description: OK
+
+        500:
+          description: Internal error
+
+  /system/color/uppermenu/textcolor:
+    get:
+      summary: Get upper menu text color
+      description: Get upper menu text color
+      operationId: getUpperMenuTextColor
+      tags:
+      - Logotype
+
+      produces:
+      - application/json
+
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/StringValue'
+
+        500:
+          description: Internal error
+
+    post:
+      summary: Update upper menu text color
+      description: Update upper menu text color
+      operationId: storeUpperMenuTextColor
+      tags:
+      - Logotype
+
+      consumes:
+      - application/json
+      produces:
+      - application/json
+
+      parameters:
+      - in: body
+        name: value
+        required: true
+        schema:
+          $ref: '#/definitions/StringValue'
+
+      responses:
+        200:
+          description: OK
+
+        500:
+          description: Internal error
+
+definitions:
+
+  StringValue:
+    type: object
+    properties:
+      value:
+        type: string
+
+
+  SystemColors:
+    type: object
+    additionalProperties:
+      type: string
+
+

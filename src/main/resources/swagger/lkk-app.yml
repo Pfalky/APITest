@@ -1,0 +1,1305 @@
+swagger: "2.0"
+info:
+  description: 'LKK API'
+  version: '1.0.0'
+  title: 'LKK API'
+tags:
+- name: "Application"
+  description: Apllication API
+- name: "Application Status"
+  description: Application Status API
+- name: "MetaInfo"
+  description: Meta information of Application API
+- name: "Counterparty"
+  description: Counterparty of Application API
+- name: "Document"
+  description: Documents of Application API
+- name: "Requirement"
+  description: Requirement of Application API
+- name: "Participant"
+  description: Participant of Application API
+
+basePath: /api
+
+paths:
+
+  /application:
+    post:
+      summary: Create application
+      description: Create application
+      operationId: createApplication
+      tags:
+      - Application
+      parameters:
+      - in: body
+        name: inn
+        required: true
+        schema:
+          $ref: '#/definitions/ApplicationCreateRequest'
+      produces:
+      - application/json
+      responses:
+        200:
+          description: Return information about request
+          schema:
+            $ref: '#/definitions/Application'
+        204:
+          description: Internal check failed
+
+    get:
+      summary: Return all the Application
+      description: Retrun all the Application of the current user
+      operationId: getAllApplication
+      tags:
+      - "Application"
+      produces:
+      - application/json
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: "#/definitions/ApplicationList"
+        500:
+          description: Internal error
+          schema:
+            $ref: '#/definitions/ErrorMessage'
+
+  /application/last:
+    get:
+      summary: Get last user application
+      description: Get last user application
+      operationId: lastApplication
+      tags:
+      - Application
+
+      produces:
+      - application/json
+
+      responses:
+        200:
+          description: Return last user application
+          schema:
+            $ref: '#/definitions/Application'
+        404:
+          description: Not found
+
+  /application/{id}/office:
+    get:
+      summary: getting information about bank
+      description: getting information about bank
+      operationId: getOffice
+      tags:
+      - "Application"
+      parameters:
+      - $ref: '#/parameters/ApplicationId'
+      produces:
+      - application/json
+      responses:
+        200:
+          description: return information
+          schema:
+            $ref: '#/definitions/ListBanks'
+
+  /v2/application/{id}/office:
+    get:
+      summary: getting information about bank, region and offices
+      description: getting information about bank, region and offices
+      operationId: getOfficeV2
+      tags:
+      - "Application"
+      parameters:
+      - $ref: '#/parameters/ApplicationId'
+      produces:
+      - application/json
+      responses:
+        200:
+          description: return information
+          schema:
+            $ref: '#/definitions/GetBank'
+
+  /application/{id}/office/{officeId}:
+    post:
+      summary: set office
+      description: set office
+      tags:
+      - Application
+      operationId: setOffice
+      parameters:
+      - $ref: '#/parameters/ApplicationId'
+      - in: path
+        name: officeId
+        type: integer
+        required: true
+      responses:
+        200:
+          description: OK
+
+  /application/{id}/save:
+    post:
+      summary: Save information about application
+      tags:
+      - Application
+      operationId: save
+      parameters:
+      - $ref: '#/parameters/ApplicationId'
+      - $ref: '#/parameters/AppPayload'
+      responses:
+        200:
+          description: OK
+
+
+  /application/{id}/status/cancel:
+    post:
+      summary: canсel application
+      description: cancel application
+      tags:
+      - Application Status
+      operationId: cancelApplication
+      parameters:
+      - $ref: '#/parameters/ApplicationId'
+      responses:
+        200:
+          description: OK
+
+  /application/{id}/status/next:
+    post:
+      summary: set next status application
+      description: set next status application
+      tags:
+      - Application Status
+      operationId: nextStatus
+      parameters:
+      - $ref: '#/parameters/ApplicationId'
+      responses:
+        200:
+          description: current status application
+          schema:
+            $ref: '#/definitions/Status'
+
+  /application/{id}/status:
+    get:
+      summary: Return status the Application
+      description: Retrun status the application
+      operationId: getApplicationStatus
+      tags:
+      - Application Status
+      parameters:
+      - $ref: '#/parameters/ApplicationId'
+      produces:
+      - application/json
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: "#/definitions/Status"
+        500:
+          description: Internal error
+          schema:
+            $ref: '#/definitions/ErrorMessage'
+
+  /application/{id}:
+    get:
+      summary: Get application
+      description: Return Application
+      operationId: getApplication
+      tags:
+      - "Application"
+      parameters:
+      - in: path
+        name: id
+        type: string
+        required: true
+        description: Application id
+      produces:
+      - application/json
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Application'
+        404:
+          description: Not found
+          schema:
+            $ref: '#/definitions/ErrorMessage'
+        500:
+          description: Internal error
+          schema:
+            $ref: '#/definitions/ErrorMessage'
+
+
+  #  Meta
+  /meta/list:
+    get:
+      summary: return information about meta enums
+      description: return information about meta enums
+      tags:
+      - MetaInfo
+      operationId: MetaList
+      produces:
+      - application/json
+      responses:
+        200:
+          description: Key value object
+          schema:
+            $ref: '#/definitions/MetaList'
+
+  /application/{id}/meta:
+    get:
+      summary: getting all meta information of application
+      description: getting meta information of application
+      operationId: getAllMeta
+      tags:
+      - "MetaInfo"
+      produces:
+      - application/json
+      parameters:
+      - $ref: '#/parameters/ApplicationId'
+      responses:
+        200:
+          description: return meta information
+          schema:
+            $ref: '#/definitions/MetaInfoList'
+    post:
+      summary: add or update meta information to application
+      description: add or update meta information to application
+      operationId: addMetaInformation
+      tags:
+      - "MetaInfo"
+      consumes:
+      - application/json
+      parameters:
+      - $ref: '#/parameters/ApplicationId'
+      - in: body
+        description: meta object
+        required: true
+        name: meta
+        schema:
+          $ref: '#/definitions/MetaInfo'
+      responses:
+        200:
+          schema:
+            $ref: '#/definitions/MetaInfo'
+          description: OK
+
+  /application/{id}/meta/{metaId}:
+    get:
+      summary: getting meta information
+      description: getting meta information
+      operationId: getMetaInformation
+      tags:
+      - "MetaInfo"
+      produces:
+      - application/json
+      parameters:
+      - $ref: '#/parameters/ApplicationId'
+      - in: path
+        name: metaId
+        required: true
+        type: string
+        description: meta id
+      responses:
+        200:
+          description: return meta information
+          schema:
+            $ref: '#/definitions/MetaInfo'
+    delete:
+      summary: delete meta information
+      description: delete meta information
+      operationId: deleteMetaInformation
+      tags:
+      - "MetaInfo"
+      parameters:
+      - $ref: '#/parameters/ApplicationId'
+      - in: path
+        name: metaId
+        required: true
+        type: string
+        description: meta id
+      responses:
+        200:
+          description: OK
+
+
+  /application/{id}/decision:
+    get:
+      summary: Return information about application decision
+      description: Return information about application decision
+      tags:
+      - Application
+      operationId: getAccount
+      parameters:
+      - $ref: '#/parameters/ApplicationId'
+      responses:
+        200:
+          schema:
+            $ref: '#/definitions/ApplicationDecision'
+          description: Return account
+        204:
+          description: Account not yeld created
+
+
+
+  #  Document
+  /application/{id}/documents:
+    get:
+      summary: Get document type descriptions and linked file descriptors
+      description: Get document type descriptions and linked file descriptors
+      operationId: documentTypeDescriptions
+      tags:
+      - Document
+
+      parameters:
+      - $ref: '#/parameters/ApplicationId'
+
+      produces:
+      - application/json
+
+      responses:
+        200:
+          description: Document type descriptions and linked file descriptors
+          schema:
+            $ref: '#/definitions/UploadedDocuments'
+
+  /application/{id}/document/{documentId}/download:
+    get:
+      summary: download document
+      description: download document
+      operationId: downloadDocument
+      tags:
+      - Document
+      parameters:
+      - $ref: '#/parameters/ApplicationId'
+      - in: path
+        name: documentId
+        required: true
+        type: string
+      responses:
+        200:
+          description: The file.
+          schema:
+            type: file
+        404:
+          description: file not found
+
+  /application/{id}/document/{documentId}:
+    delete:
+      summary: Delete document of Application
+      description: Delete document of Application
+      operationId: deleteDocument
+      tags:
+      - Document
+      parameters:
+      - $ref: '#/parameters/ApplicationId'
+      - in: path
+        name: documentId
+        type: string
+        required: true
+        description: document id
+      responses:
+        200:
+          description: OK
+    get:
+      summary: get document of application
+      description: get document of application
+      operationId: getDocument
+      tags:
+      - Document
+      parameters:
+      - $ref: '#/parameters/ApplicationId'
+      - in: path
+        name: documentId
+        type: string
+        required: true
+        description: document id
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Document'
+
+  /application/{id}/document:
+    get:
+      summary: Get documents of Application
+      description: Get all document of Application
+      operationId: getDocuments
+      tags:
+      - Document
+      parameters:
+      - $ref: '#/parameters/ApplicationId'
+      responses:
+        200:
+          description: List of documents
+          schema:
+            $ref: '#/definitions/DocumentList'
+    post:
+      summary: Save document
+      description: Saving document
+      operationId: saveDocumentа
+      tags:
+      - Document
+      consumes:
+      - multipart/form-data
+      parameters:
+      - in: path
+        name: id
+        type: string
+        required: true
+        description: application id
+      - in: formData
+        name: doctypeid
+        type: integer
+        required: true
+        description: document type
+      - in: formData
+        name: file
+        type: file
+        required: true
+        description: The document to upload.
+      - in: formData
+        name: name
+        type: string
+        required: true
+        description: name document
+      - in: formData
+        name: origName
+        type: string
+        required: true
+        description: originally name document
+      produces:
+      - application/json
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Document'
+        500:
+          description: Internal error
+          schema:
+            $ref: '#/definitions/ErrorMessage'
+
+  /application/{id}/document/questionnaire/{questId}:
+    get:
+      summary: download Questionnaire of bank
+      description: download Questionnaire of bank
+      operationId: getQuestionnaire
+      tags:
+      - Document
+      parameters:
+      - $ref: '#/parameters/ApplicationId'
+      - in: path
+        name: questId
+        required: true
+        type: integer
+      responses:
+        200:
+          description: The file.
+          schema:
+            type: file
+
+  # Individual
+  /application/{id}/participant:
+    get:
+      summary: Get all the invididuals of application
+      description: Get all the invididuals of application
+      operationId: getAllParticipants
+      tags:
+      - Participant
+      parameters:
+      - $ref: '#/parameters/ApplicationId'
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/ParticipantList'
+
+    post:
+      summary: Save or update individual
+      description: Saving or updating individual information
+      operationId: saveParticipant
+      tags:
+      - Participant
+      consumes:
+      - application/json
+      parameters:
+      - $ref: '#/parameters/ApplicationId'
+      - in: body
+        name: individual
+        required: true
+        schema:
+          $ref: '#/definitions/Participant'
+      produces:
+      - application/json
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Participant'
+        500:
+          description: Internal error
+          schema:
+            $ref: '#/definitions/ErrorMessage'
+
+  /application/{id}/participant/{participantId}:
+    delete:
+      summary: Delete individual of application
+      description: Delete individual of application
+      operationId: deleteParticipant
+      tags:
+      - Participant
+      parameters:
+      - $ref: '#/parameters/ApplicationId'
+      - in: path
+        name: participantId
+        type: string
+        required: true
+        description: individual id
+      responses:
+        200:
+          description: OK
+
+    get:
+      summary: get individual by id
+      description: get individual by Id
+      operationId: getParticipantById
+      tags:
+      - Participant
+      parameters:
+      - $ref: '#/parameters/ApplicationId'
+      - in: path
+        name: participantId
+        type: string
+        required: true
+        description: individual id
+      produces:
+      - application/json
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Participant'
+        500:
+          description: Internal error
+          schema:
+            $ref: '#/definitions/ErrorMessage'
+
+
+
+  #  Counterparty
+  /application/{id}/counterparty/{counterpartyId}:
+    delete:
+      summary: delete counterparty
+      description: delete counterparty
+      operationId: deleteCounterparty
+      tags:
+      - Counterparty
+      parameters:
+      - $ref: '#/parameters/ApplicationId'
+      - in: path
+        name: counterpartyId
+        type: string
+        required: true
+        description: Counterparty id
+      responses:
+        200:
+          description: OK
+
+    get:
+      summary: getCounterparty by id
+      description: getCounterparty by Id
+      operationId: getCounterpartyById
+      tags:
+      - Counterparty
+      parameters:
+      - $ref: '#/parameters/ApplicationId'
+      - in: path
+        name: counterpartyId
+        type: string
+        required: true
+        description: Counterparty id
+      produces:
+      - application/json
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Counterparty'
+        500:
+          description: Internal error
+          schema:
+            $ref: '#/definitions/ErrorMessage'
+
+  /application/{id}/counterparty/inn/{inn}:
+    get:
+      summary: return counterparty via inn
+      description: return counterparty via inn
+      operationId: getCounterpartyByInn
+      tags:
+      - Counterparty
+      parameters:
+      - $ref: '#/parameters/ApplicationId'
+      - in: path
+        name: inn
+        required: true
+        type: string
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/CounterpatyWrapper'
+        404:
+          description: Counterparty not found
+
+
+
+  /application/{id}/counterparty:
+    get:
+      summary: getting counterparties of Application
+      description: getting counterparties of Application
+      operationId: getCounterparties
+      tags:
+      - Counterparty
+      parameters:
+      - $ref: '#/parameters/ApplicationId'
+      responses:
+        200:
+          schema:
+            $ref: '#/definitions/CounterpartyList'
+          description: OK
+    post:
+      summary: Save counterparty
+      description: Saving counterparty information
+      operationId: saveCounterparties
+      tags:
+      - Counterparty
+      consumes:
+      - application/json
+      parameters:
+      - in: path
+        name: id
+        type: string
+        required: true
+        description: application id
+      - in: body
+        name: counterparty
+        required: true
+        schema:
+          $ref: '#/definitions/Counterparty'
+      produces:
+      - application/json
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Counterparty'
+        500:
+          description: Internal error
+          schema:
+            $ref: '#/definitions/ErrorMessage'
+
+
+  #  Requiremet
+  /application/{id}/requirement/{requirementId}:
+    get:
+      summary: Getting requirement by id
+      description: Getting requirement by id
+      operationId: getRequirement
+      tags:
+      - Requirement
+      parameters:
+      - $ref: '#/parameters/ApplicationId'
+      - in: path
+        name: requirementId
+        type: string
+        description: requirement id
+        required: true
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Requirement'
+
+  /application/{id}/requirement:
+    get:
+      summary: Getting all the requiremnt of Application
+      description: Getting all the requiremnt of Application
+      operationId: getAllRequirement
+      tags:
+      - Requirement
+      parameters:
+      - $ref: '#/parameters/ApplicationId'
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/RequirementList'
+
+    post:
+      summary: Save or update requirement
+      description: save or update requirement
+      operationId: saveRequirement
+      tags:
+      - Requirement
+      parameters:
+      - $ref: '#/parameters/ApplicationId'
+      - in: body
+        name: requirement
+        required: true
+        description: requirement
+        schema:
+          $ref: '#/definitions/Requirement'
+      responses:
+        200:
+          description: OK
+
+
+parameters:
+  ApplicationId:
+    name: id
+    in: path
+    description: application id
+    required: true
+    type: string
+  AppPayload:
+    name: payload
+    in: body
+    description: contains information about app
+    required: true
+    schema:
+      $ref: '#/definitions/AppPayload'
+
+
+
+
+definitions:
+  AppPayload:
+    type: object
+    properties:
+      counterparties:
+        type: array
+        items:
+          $ref: '#/definitions/Counterparty'
+      participants:
+        type: array
+        items:
+          $ref: '#/definitions/Participant'
+      metainfo:
+        type: array
+        items:
+          $ref: '#/definitions/MetaInfo'
+      data:
+        $ref: '#/definitions/AppData'
+
+  AppData:
+    type: object
+    properties:
+      actualaddress:
+        type: string
+        example: "г. Москва, ул Чекалова, д 2 к1"
+      officeId:
+        type: integer
+        example: 1
+
+  MetaInfoList:
+    type: array
+    items:
+      $ref: '#/definitions/MetaInfo'
+
+  MetaInfo:
+    type: object
+    properties:
+      key:
+        type: string
+        example: "actualAddressMatch"
+      value:
+        type: string
+        example: "false"
+
+  CounterpatyWrapper:
+    type: object
+    properties:
+      type:
+        type: string
+        default: 'counterparty'
+      data:
+        type: object
+        properties:
+          id:
+            type: string
+          value:
+            $ref: '#/definitions/Counterparty'
+
+
+
+  Counterparty:
+    type: object
+    properties:
+      id:
+        type: string
+        example: null
+      name:
+        type: string
+        example: "Комус"
+      factaddress:
+        type: string
+        example: "Какой то адрес"
+      inn:
+        type: string
+        example: "7721793895"
+
+  ErrorMessage:
+    type: 'object'
+    properties:
+      message:
+        description: 'description error'
+        type: 'string'
+
+  ApplicationList:
+    type: array
+    items:
+      $ref: '#/definitions/Application'
+
+  ParticipantList:
+    type: array
+    items:
+      $ref: '#/definitions/Participant'
+
+  CounterpartyList:
+    type: array
+    items:
+      $ref: '#/definitions/Counterparty'
+
+  Status:
+    type: 'object'
+    properties:
+      id:
+        type: integer
+      code:
+        type: string
+      name:
+        type: string
+
+  ApplicationData:
+    type: object
+    properties:
+      id:
+        type: 'string'
+      number:
+        type: 'integer'
+      regaddress:
+        type: 'string'
+      regdate:
+        type: 'string'
+      orgnameshort:
+        type: 'string'
+      orgnamefull:
+        type: 'string'
+      inn:
+        type: 'string'
+      kpp:
+        type: 'string'
+      ogrn:
+        type: 'string'
+      okpo:
+        type: 'string'
+      legalform:
+        type: 'string'
+      isIndividual:
+        type: 'boolean'
+      okvedname:
+        type: 'string'
+      office:
+        type: 'integer'
+      ownershipform:
+        type: 'string'
+      clientStatus:
+        type: 'string'
+
+  Application:
+    type: 'object'
+    properties:
+      data:
+        $ref: '#/definitions/ApplicationData'
+      status:
+        $ref: '#/definitions/Status'
+
+
+
+  Document:
+    type: object
+    properties:
+      id:
+        type: string
+        example: 'e14cf576-c91a-4ab0-8bbb-44cce08a4958'
+      doctypeid:
+        type: integer
+        example: 2
+      name:
+        type: string
+        example: 'Учредительный документ (1).pdf'
+      date:
+        type: string
+        example: '2018-12-01T10:12:07.192Z'
+      size:
+        type: integer
+        format: int32
+        description: Size file (Byte)
+        example: 43232423423
+      origName:
+        type: string
+        example: 'doc.pdf'
+
+
+
+  Participant:
+    type: object
+    properties:
+      typeStorage:
+        type: string
+        enum: [INDIVIDUAL,LEGAL_ENTITY]
+      isPrimary:
+        type: boolean
+      individual:
+        $ref: '#/definitions/Individual'
+      legalentity:
+        $ref: '#/definitions/LegalEntity'
+
+  Individual:
+    type: object
+    properties:
+      id:
+        type: string
+        description: It's must be the UUID or null
+        example: null
+      fio:
+        type: string
+        example: 'Павлов Ярослав Витальевич'
+        description: This field is deprecated - use name , surname, parname
+      name:
+        type: string
+        example: 'Ярослав'
+      surname:
+        type: string
+        example: 'Павлов'
+      parname:
+        type: string
+        example: 'Витальевич'
+      position:
+        type: string
+        example: 'Генеральный бухгалтер'
+      whoissued:
+        type: string
+        example: 'Отделением ХАОС - бывшего Легиона Лунных Волков'
+      placebirth:
+        type: string
+        example: 'Луна или Хтония'
+      issuedate:
+        type: string
+        format: date-time
+        example: '1996-12-14T10:12:07.192Z'
+      unitcode:
+        type: string
+        example: 5323
+      docnumber:
+        type: string
+        example: 4543 45634
+      birthdate:
+        type: string
+        format: date-time
+        example: '1976-12-01T10:12:07.192Z'
+      residenceAddress:
+        $ref: '#/definitions/Address'
+
+
+  ListBanks:
+    type: object
+    properties:
+      banks:
+        type: array
+        items:
+          $ref: '#/definitions/Bank'
+
+  Office:
+    type: object
+    properties:
+      id:
+        type: integer
+        example: 1
+      name:
+        type: string
+        example: 'БЦ «Лужники»'
+      address:
+        type: string
+        example: 'г. Москва, ул. Усачева, д. 35, стр. 1'
+
+  GetBank:
+    type: object
+    properties:
+      banks:
+        type: array
+        items:
+          $ref: '#/definitions/BankV2'
+
+
+
+  BankV2:
+    type: object
+    properties:
+      id:
+        type: integer
+        example: 1
+      name:
+        type: string
+        example: 'ПАО «МОСКОВСКИЙ КРЕДИТНЫЙ БАНК»'
+      regions:
+        type: array
+        items:
+          $ref: '#/definitions/Region'
+      questionnaires:
+        type: array
+        items:
+          $ref: '#/definitions/Questionnaire'
+
+  Region:
+    type: object
+    properties:
+      id:
+        type: integer
+        example: 1
+      name:
+        type: string
+        example: 'Москва'
+      offices:
+        type: array
+        items:
+          $ref: '#/definitions/Office'
+
+  Bank:
+    type: object
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      offices:
+        type: array
+        items:
+          $ref: '#/definitions/Office'
+      questionnaires:
+        type: array
+        items:
+          $ref: '#/definitions/Questionnaire'
+
+
+  MetaList:
+    type: object
+    properties:
+      attributes:
+        type: "object"
+        additionalProperties:
+          type: "object"
+
+
+  RequirementList:
+    type: array
+    items:
+      $ref: '#/definitions/Requirement'
+
+  DocumentList:
+    type: array
+    items:
+      $ref: '#/definitions/Document'
+
+
+
+  Requirement:
+    type: object
+    properties:
+      id:
+        type: string
+      artifactname:
+        type: string
+        example: 'Договор с ООО Хаос'
+      comment:
+        type: string
+        example: 'Уважаемый клиент! Пожалуйста грузаните доки !'
+      userreply:
+        type: string
+        example: 'Банк я сделать!'
+      externalId:
+        type: string
+      datetime:
+        type: string
+        format: date-time
+        example: '2018-12-14T10:12:07.192Z'
+
+  ApplicationDecision:
+    type: object
+    properties:
+      account:
+        $ref: '#/definitions/Account'
+      decision:
+        $ref: '#/definitions/Decision'
+      message:
+        type: 'string'
+
+  Decision:
+    type: 'object'
+    properties:
+      decision:
+        type: 'string'
+        description: 'APPROVE or DECLINE'
+        example: 'APPROVE'
+      comment:
+        type: 'string'
+      message:
+        type: 'string'
+      openingdate:
+        type: string
+        format: date-time
+        example: '2018-12-14T10:12:07.192Z'
+
+  Account:
+    type: object
+    properties:
+      accountnumber:
+        type: string
+        example: '1263437657342543'
+      receiver:
+        type: string
+        example: 'Общество с Ограниченной Ответственностью "Инновационные Финансовые Решения"'
+      innBank:
+        type: string
+        example: '7734202860'
+      kppBank:
+        type: string
+        example: '770801001'
+      okpoBank:
+        type: string
+        example: '09318941'
+      ogrnBank:
+        type: string
+        example: '1027739555282'
+      correspondingAccount:
+        type: string
+        example: '30101810745250000659 в Главном управлении Центрального банка Российской Федерации по Центральному федеральному округу г. Москва'
+      bank:
+        type: string
+        example: 'ПАО «МОСКОВСКИЙ КРЕДИТНЫЙ БАНК»'
+      bikBank:
+        type: string
+        example: '044525659'
+      openingdate:
+        type: string
+        format: date-time
+        example: '2018-12-14T10:12:07.192Z'
+
+  LegalEntity:
+    type: object
+    properties:
+      id:
+        type: string
+        description: It's must be UUID or NULL
+      inn:
+        type: string
+        example: 63241657010
+      name:
+        type: string
+        example: 'ООО Хаос'
+
+  Questionnaire:
+    type: object
+    properties:
+      id:
+        type: string
+      type:
+        type: string
+      documentId:
+        type: string
+
+  ApplicationCreateRequest:
+    type: object
+    properties:
+      inn:
+        type: string
+        example: "9715316168"
+      promo:
+        type: string
+
+  Address:
+    type: object
+    properties:
+      index:
+        type: string
+        example: 123456
+        description: This field must has size 6 symbols
+      country:
+        type: string
+        example: RU
+      area:
+        type: string
+        example: Moscow area
+      city:
+        type: string
+        example: Moscow
+      street:
+        type: string
+        example: Kantemirovskay
+      house:
+        type: string
+        example: 1
+      housing:
+        type: string
+        example: 2
+      office:
+        type: string
+        example: 13
+
+  UploadedDocuments:
+    type: array
+    items:
+      $ref: '#/definitions/DocumentFileDescriptor'
+
+  DocumentFileDescriptor:
+    type: object
+    properties:
+      type:
+        type: string
+      data:
+        $ref: '#/definitions/DocumentFileDataEntry'
+
+  DocumentFileDataEntry:
+    type: object
+    properties:
+      doctypeid:
+        type: integer
+      name:
+        type: string
+      description:
+        type: string
+      filecount:
+        type: integer
+        description: 0 - unlimited or should be 'filecount' files
+      required:
+        type: boolean
+      value:
+        type: array
+        items:
+          $ref: '#/definitions/DocumentDataEntry'
+
+
+  DocumentDataEntry:
+    type: object
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      origname:
+        type: string
+      date:
+        type: string
+      label:
+        type: string
+      size:
+        type: integer
+

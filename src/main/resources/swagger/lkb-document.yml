@@ -1,0 +1,212 @@
+swagger: "2.0"
+info:
+  description: 'LKB API'
+  version: '2.0.0'
+  title: 'LKB API'
+tags:
+  - name: "Applicaion Documents"
+    description: Document API
+
+paths:
+
+  /application/{applicationid}/doc/{docid}/verify:
+    post:
+      summary: set a verify result for doc
+      description: set a verify result for doc
+      operationId: setVerify
+      tags:
+        - "Applicaion Documents"
+      parameters:
+        - in: path
+          name: applicationid
+          type: string
+          required: true
+          description: Application ID
+        - in: path
+          name: docid
+          type: string
+          required: true
+          description: document id
+        - in: body
+          name: check
+          required: true
+          schema:
+            $ref: "#/definitions/VerifyReq"
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      responses:
+        200:
+          description: OK
+
+
+  /application/{applicationid}/doc/{docid}:
+    delete:
+      summary: delete application document
+      description: delete application document
+      operationId: deleteAppDoc
+      tags:
+        - "Applicaion Documents"
+      parameters:
+        - in: path
+          name: applicationid
+          type: string
+          required: true
+          description: Application ID
+        - in: path
+          name: docid
+          type: string
+          required: true
+          description: document id
+
+      produces:
+        - application/json
+      responses:
+        200:
+          description: OK
+
+
+
+  /application/{applicationid}/clientdocs:
+    get:
+      summary: return client documents
+      description: return client documents
+      operationId: getClientDocuments
+      tags:
+        - "Applicaion Documents"
+      parameters:
+        - in: path
+          name: applicationid
+          type: string
+          required: true
+          description: Application ID
+
+      produces:
+        - application/json
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/AppDocumentTypes'
+
+
+  /application/{applicationid}/fielddocs:
+    get:
+      summary: return client documents
+      description: return client documents
+      operationId: getFieldDocuments
+      tags:
+        - "Applicaion Documents"
+      parameters:
+        - in: path
+          name: applicationid
+          type: string
+          required: true
+          description: Application ID
+
+      produces:
+        - application/json
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/AppDocumentTypes'
+
+
+
+parameters:
+  ApplicationId:
+    name: applicationid
+    in: path
+    description: application id
+    required: true
+    type: string
+
+
+definitions:
+
+  AppDocumentType:
+    type: object
+    properties:
+      name:
+        type: string
+      id:
+        type: integer
+      docs:
+        type: array
+        items:
+          $ref: '#/definitions/AppDocument'
+
+
+  AppDocumentTypes:
+    type: array
+    items:
+      $ref: '#/definitions/AppDocumentType'
+
+  AppDocument:
+    type: object
+    properties:
+      type:
+        type: string
+        enum: [DOC,REQ]
+      status:
+        type: string
+        enum: [VALID,NOT_VALID,PROCESS,FOR_CHECK]
+      doc:
+        $ref: '#/definitions/AppDocumentData'
+      verify:
+        $ref: '#/definitions/Verify'
+      req:
+        $ref: '#/definitions/AppRequirement'
+
+  AppDocumentData:
+    type: object
+    properties:
+      id:
+        type: string
+      date:
+        type: string
+      name:
+        type: string
+      whoUpload:
+        type: string
+
+  AppRequirement:
+    type: object
+    properties:
+      id:
+        type: string
+      comment:
+        type: string
+      artifactname:
+        type: string
+      who:
+        type: string
+      date:
+        type: string
+      completed:
+        type: boolean
+      userreply:
+        type: string
+
+  VerifyReq:
+    type: object
+    properties:
+      result:
+        type: boolean
+
+  Verify:
+    type: object
+    properties:
+      result:
+        type: boolean
+      who:
+        type: string
+      date:
+        type: string
+
+
+
+
+

@@ -1,0 +1,164 @@
+{
+  "LKKUser": [
+    {
+      "usrEmail": "TestEmail@test.ru",
+      "usrName": "Тест",
+      "usrSurName": "Автотестовый",
+      "usrParName": "Тестович",
+      "usrPromoCode": "Тестовый промокод",
+      "usrPhone": "79851111111"
+    },
+    {
+      "usrEmail": "TestEmail2@test.ru",
+      "usrName": "Тест2",
+      "usrSurName": "Автотестовый",
+      "usrParName": "Тестович",
+      "usrPromoCode": "Тестовый промокод2",
+      "usrPhone": "79851111112"
+    },
+    {
+      "usrEmail": "TestEmail3@test.ru",
+      "usrName": "Тест3",
+      "usrSurName": "Автотестовый",
+      "usrParName": "Тестович",
+      "usrPromoCode": "Тестовый промокод3",
+      "usrPhone": "79851111113"
+    },
+    {
+      "usrEmail": "TestEmail4@test.ru",
+      "usrName": "Тест4",
+      "usrSurName": "Автотестовый",
+      "usrParName": "Тестович",
+      "usrPromoCode": "Тестовый промокод4",
+      "usrPhone": "79851111114"
+    },
+    {
+      "usrEmail": "TestEmail5@test.ru",
+      "usrName": "Тест5",
+      "usrSurName": "Автотестовый",
+      "usrParName": "Тестович",
+      "usrPromoCode": "Тестовый промокод5",
+      "usrPhone": "79851111115"
+    },
+    {
+      "usrEmail": "TestEmail@test.ru",
+      "usrName": "Тест6",
+      "usrSurName": "Автотестовый",
+      "usrParName": "Тестович",
+      "usrPromoCode": "Тестовый промокод6",
+      "usrPhone": "79851111116"
+    },
+    {
+      "usrEmail": "TestEmail7@test.ru",
+      "usrName": "Тест7",
+      "usrSurName": "Автотестовый",
+      "usrParName": "Тестович",
+      "usrPromoCode": "Тестовый промокод7",
+      "usrPhone": "79851111117"
+    },
+    {
+      "usrEmail": "TestEmail8@test.ru",
+      "usrName": "Тест8",
+      "usrSurName": "Автотестовый",
+      "usrParName": "Тестович",
+      "usrPromoCode": "Тестовый промокод8",
+      "usrPhone": "79851111118"
+    },
+    {
+      "usrEmail": "TestEmail9@test.ru",
+      "usrName": "Тест9",
+      "usrSurName": "Автотестовый",
+      "usrParName": "Тестович",
+      "usrPromoCode": "Тестовый промокод9",
+      "usrPhone": "79851111119"
+    },
+    {
+      "usrEmail": "TestEmail10@test.ru",
+      "usrName": "Тест10",
+      "usrSurName": "Автотестовый",
+      "usrParName": "Тестович",
+      "usrPromoCode": "Тестовый промокод10",
+      "usrPhone": "79851111120"
+    },
+    {
+      "usrEmail": "TestEmail11@test.ru",
+      "usrName": "Тест11",
+      "usrSurName": "Автотестовый",
+      "usrParName": "Тестович",
+      "usrPromoCode": "Тестовый промокод11",
+      "usrPhone": "79851111121"
+    },
+    {
+      "usrEmail": "TestEmail12@test.ru",
+      "usrName": "Тест12",
+      "usrSurName": "Автотестовый",
+      "usrParName": "Тестович",
+      "usrPromoCode": "Тестовый промокод12",
+      "usrPhone": "79851111122"
+    },
+    {
+      "usrEmail": "TestEmail13@test.ru",
+      "usrName": "Тест13",
+      "usrSurName": "Автотестовый",
+      "usrParName": "Тестович",
+      "usrPromoCode": "Тестовый промокод13",
+      "usrPhone": "79851111123"
+    },
+    {
+      "usrEmail": "TestEmail14@test.ru",
+      "usrName": "Тест14",
+      "usrSurName": "Автотестовый",
+      "usrParName": "Тестович",
+      "usrPromoCode": "Тестовый промокод14",
+      "usrPhone": "79851111124"
+    },
+    {
+      "usrEmail": "TestEmail15@test.ru",
+      "usrName": "Тест15",
+      "usrSurName": "Автотестовый",
+      "usrParName": "Тестович",
+      "usrPromoCode": "Тестовый промокод15",
+      "usrPhone": "79851111125"
+    },
+    {
+      "usrEmail": "TestEmail16@test.ru",
+      "usrName": "Тест16",
+      "usrSurName": "Автотестовый",
+      "usrParName": "Тестович",
+      "usrPromoCode": "Тестовый промокод16",
+      "usrPhone": "79851111126"
+    },
+    {
+      "usrEmail": "TestEmail17@test.ru",
+      "usrName": "Тест17",
+      "usrSurName": "Автотестовый",
+      "usrParName": "Тестович",
+      "usrPromoCode": "Тестовый промокод17",
+      "usrPhone": "79851111127"
+    },
+    {
+      "usrEmail": "TestEmail18@test.ru",
+      "usrName": "Тест18",
+      "usrSurName": "Автотестовый",
+      "usrParName": "Тестович",
+      "usrPromoCode": "Тестовый промокод18",
+      "usrPhone": "79851111128"
+    },
+    {
+      "usrEmail": "TestEmail19@test.ru",
+      "usrName": "Тест19",
+      "usrSurName": "Автотестовый",
+      "usrParName": "Тестович",
+      "usrPromoCode": "Тестовый промокод19",
+      "usrPhone": "79851111129"
+    },
+    {
+      "usrEmail": "TestEmail20@test.ru",
+      "usrName": "Тест20",
+      "usrSurName": "Автотестовый",
+      "usrParName": "Тестович",
+      "usrPromoCode": "Тестовый промокод20",
+      "usrPhone": "79851111130"
+    }
+  ]
+}

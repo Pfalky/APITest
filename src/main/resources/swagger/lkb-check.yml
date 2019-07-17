@@ -1,0 +1,208 @@
+swagger: "2.0"
+info:
+  description: 'LKB API'
+  version: '1.0.0'
+  title: 'LKB API'
+tags:
+  - name: "Check"
+    description: Check API
+
+paths:
+
+  /check/{applicationid}/{executetime}/{checktype}/:
+    patch:
+      summary: Update check element
+      description: Update check element
+      operationId: updateCheckElement
+      tags:
+        - "Check"
+      parameters:
+        - in: path
+          name: applicationid
+          type: string
+          required: true
+          description: Application ID
+        - in: path
+          name: executetime
+          type: string
+          required: true
+          description: Execute Time
+        - in: path
+          name: checktype
+          type: integer
+          required: true
+          description: Check type
+        - in: body
+          name: check
+          required: true
+          schema:
+            $ref: "#/definitions/Check"
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      responses:
+        200:
+          description: OK
+
+  /check/{applicationid}/{executetime}/{checktype}/result:
+    post:
+      summary: set result of check
+      description: set result of check
+      operationId: setResult
+      tags:
+        - Check
+      parameters:
+        - $ref: '#/parameters/ApplicationId'
+        - $ref: '#/parameters/CheckType'
+        - $ref: '#/parameters/Executetime'
+        - in: body
+          name: result
+          required: true
+          schema:
+            $ref: '#/definitions/CheckResult'
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      responses:
+        200:
+          description: OK
+
+  /check/{abstractid}/{executetime}/{checktype}/comment:
+    post:
+      summary: add check comment
+      description: add check comment
+      operationId: addComment
+      tags:
+        - Check
+      parameters:
+        - $ref: '#/parameters/AbstractId'
+        - $ref: '#/parameters/CheckType'
+        - $ref: '#/parameters/Executetime'
+        - in: body
+          name: comment
+          required: true
+          schema:
+            $ref: '#/definitions/Comment'
+
+      consumes:
+        - application/json
+      produces:
+        - application/json
+
+      responses:
+        200:
+          description: OK
+
+  /check/{abstractid}/{executetime}/report:
+    get:
+      summary: generate report
+      description: generate report
+      operationId: generateReport
+      tags:
+        - Check
+      parameters:
+        - $ref: '#/parameters/AbstractId'
+        - $ref: '#/parameters/Executetime'
+
+      responses:
+        200:
+          description: A XSLX file.
+          schema:
+            type: file
+
+  /application/{applicationid}/recheck/:
+    post:
+      summary: Recheck application
+      description: Recheck application
+      operationId: recheckApplication
+      tags:
+        - "Check"
+      parameters:
+        - in: path
+          name: applicationid
+          type: string
+          required: true
+          description: Application ID
+        - in: body
+          name: recheckPost
+          required: true
+          schema:
+            $ref: '#/definitions/RecheckPost'
+      responses:
+        200:
+          description: OK
+        404:
+          description: Not found
+        500:
+          description: Internal error
+
+
+
+parameters:
+  ApplicationId:
+    name: applicationid
+    in: path
+    description: application id
+    required: true
+    type: string
+  AbstractId:
+    name: abstractid
+    in: path
+    description: Abstract id
+    required: true
+    type: string
+
+  Executetime:
+    in: path
+    name: executetime
+    type: string
+    required: true
+    description: Execute Time
+
+  CheckType:
+    in: path
+    name: checktype
+    type: integer
+    required: true
+    description: Check type
+
+definitions:
+
+  RecheckPost:
+    type: object
+    properties:
+      id:
+        type: string
+      type:
+        type: string
+
+  CheckResult:
+    type: object
+    properties:
+      result:
+        type: string
+      id:
+        type: string
+
+  Comment:
+    type: object
+    properties:
+      content:
+        type: string
+
+  Check:
+    type: object
+    properties:
+      datetime:
+        type: string
+      checkname:
+        type: string
+      result:
+        type: string
+      comment:
+        type: string
+
+
+
